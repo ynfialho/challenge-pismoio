@@ -1,0 +1,23 @@
+[[package]]
+name = "confluent-kafka"
+version = "1.9.2"
+description = "Confluent's Python client for Apache Kafka"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.extras]
+avro = ["avro (==1.10.0)", "requests", "fastavro (>=0.23.0,<1.0)", "fastavro (>=1.0)"]
+dev = ["pytest-timeout", "flake8", "avro (==1.10.0)", "requests", "pytest (==4.6.4)", "fastavro (>=0.23.0,<1.0)", "fastavro (>=1.0)", "pytest"]
+doc = ["sphinx", "sphinx-rtd-theme", "avro (==1.10.0)", "requests", "fastavro (>=0.23.0,<1.0)", "fastavro (>=1.0)"]
+json = ["jsonschema", "requests", "pyrsistent (==0.16.1)", "pyrsistent"]
+protobuf = ["protobuf", "requests"]
+schema-registry = ["requests"]
+
+[metadata]
+lock-version = "1.1"
+python-versions = ">=3.9"
+content-hash = "d91290c7059cc4eb853b40b44a8c740f98331d1556de1bb0e85349565d84833c"
+
+[metadata.files]
+confluent-kafka = []
