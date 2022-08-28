@@ -1,0 +1,22 @@
+{
+    "namespace": "challenge-pismo",
+    "type": "record",
+    "name": "ClientA",
+    "fields": [{
+            "name": "client",
+            "type": "string"
+        },
+        {
+            "name": "event_type",
+            "type": "string"
+        },
+        {
+            "name": "value",
+            "type": "string"
+        },
+        {
+            "name": "credit_card_number",
+            "type": "string"
+        }
+    ]
+}
