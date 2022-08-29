@@ -11,10 +11,10 @@ QTDY_MESSAGES = range(3000)
 def load_schemas(map_schemas: dict) -> dict:
     """Load AVRO schema stored in project.
     Args:
-        map_schemas (dict): _description_
+        map_schemas (dict): map of clients and paths
 
     Returns:
-        dict: _description_
+        dict: map of client and schemas
     """    
     result = map_schemas.copy()
     for index in range(len(map_schemas)):

@@ -1,4 +1,5 @@
 from services.kafka import KafkaService
+from common.constants import KAFKA_CONFIG, SOURCE_CONFIG, DESTINATION_CONFIG, SCHEMA_REGISTRY_URL
 import json
 
 
@@ -14,7 +15,7 @@ class EventProcessor(KafkaService):
         super().__init__(configs, schema_registry_url)
         self.destinations = destinations
 
-    def validate_persist(self, topics: list):
+    def validate_persist(self, topics: list, trigger_once: bool = False):
         """Validate and write messages in Kafka topics.
         Args:
             topics (list): Source Kafka topics 
@@ -26,6 +27,8 @@ class EventProcessor(KafkaService):
                 raw_message = consumer.poll(.5)
                 if self._check_valid_message(raw_message):
                     _ = self._process_message_value(raw_message, self.delilvery_to_kafka)
+                    if trigger_once:
+                        return True
                 else:
                     self.logger.debug('Message isn`t valid or null.')
                     continue
@@ -42,20 +45,14 @@ class EventProcessor(KafkaService):
         Returns:
             str: _description_
         """        
-        dest_topic = self.destinations.get(message.get('event_type', ''), None)
-        self.produce(topic=dest_topic, message=json.dumps(message))
-        return dest_topic
+        dest_topics = self.destinations.get(message.get('event_type', ''), None)
+        for topic in dest_topics:
+            self.produce(topic=topic, message=json.dumps(message))
+        return True
 
-conf = {'bootstrap.servers': 'localhost:9094',
-    'group.id': 'validate6',
-    'auto.offset.reset': 'earliest',
-    'enable.auto.commit': True}
+def main():
+    event_processor = EventProcessor(KAFKA_CONFIG, SCHEMA_REGISTRY_URL, DESTINATION_CONFIG)
+    event_processor.validate_persist(SOURCE_CONFIG)
 
-destinations = {
-    "sales": 'client_a-good-events',
-    "lead": 'client_b-good-events',
-    "geolocation": 'client_c-good-events'
-}
-
-event_processor = EventProcessor(conf, 'http://0.0.0.0:8081', destinations)
-event_processor.validate_persist(['client_a-events', 'client_b-events', 'client_c-events'])
+if __name__ == '__main__':
+    main()

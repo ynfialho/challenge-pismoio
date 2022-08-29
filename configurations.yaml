@@ -1,0 +1,21 @@
+kafka:
+  - bootstrap.servers: localhost:9094
+  - group.id: event_processor
+  - auto.offset.reset: earliest
+  - enable.auto.commit: true
+  - schema.registry.url: http://0.0.0.0:8081
+
+source:
+  kafka:
+    - client_a-events
+    - client_b-events
+    - client_c-events
+
+destination:
+  kafka:
+    sales:
+      - client_a-good-events
+    lead:
+      - client_b-good-events
+    geolocation:
+      - client_c-good-events

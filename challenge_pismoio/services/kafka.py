@@ -1,6 +1,6 @@
 from __future__ import annotations
 from typing import Callable
-from challenge_pismoio.common.logger import settings_logger
+from common.logger import settings_logger
 from confluent_kafka import Message, SerializingProducer, DeserializingConsumer, Producer, Consumer
 from confluent_kafka.schema_registry import SchemaRegistryClient
 from confluent_kafka.schema_registry.avro import AvroSerializer, AvroDeserializer
