@@ -3,16 +3,13 @@ from models.mock_payloads import ClientA, ClientB, ClientC
 from dataclasses import asdict
 from os import getcwd
 import json
-
-TOPIC_PATTERN = '{client}-events'
-QTDY_MESSAGES = range(3000)
+from common.constants import KAFKA_CONFIG, SCHEMA_REGISTRY_URL
 
 
 def load_schemas(map_schemas: dict) -> dict:
     """Load AVRO schema stored in project.
     Args:
         map_schemas (dict): map of clients and paths
-
     Returns:
         dict: map of client and schemas
     """    
@@ -23,10 +20,8 @@ def load_schemas(map_schemas: dict) -> dict:
         result[index] = map_item
     return result
 
-conf = {'bootstrap.servers': 'localhost:9094',
-        'group.id': "validate",
-        'auto.offset.reset': 'latest',
-        'enable.auto.commit': True}
+TOPIC_PATTERN = '{client}-events'
+QTDY_MESSAGES = range(3000)
 
 schemas = [
     {"client": "client_a", "path": 'challenge_pismoio/models/client_a.json', "payload": ClientA},
@@ -37,7 +32,7 @@ schemas = [
 schemas = load_schemas(schemas)
 
 
-kafka = KafkaService(configs=conf, schema_registry_url='http://0.0.0.0:8081')
+kafka = KafkaService(configs=KAFKA_CONFIG, schema_registry_url=SCHEMA_REGISTRY_URL)
 for idx in QTDY_MESSAGES:
     for item in schemas:
         topic_name = TOPIC_PATTERN.format(client=item['client'])
