@@ -21,5 +21,12 @@ event-process-stop:
 debugger-start:
 	@${PWD}/.venv/bin/python ${PWD}/challenge_pismoio/debugger.py
 
-mock-stop:
+debugger-stop:
 	@kill -9 $(ps aux | grep debugger.py | awk 'NR==1{print $2}')
+
+test:
+	@poetry run python -m pytest \
+		--cov=. \
+		--cov-report=term \
+		--cov-report=html:coverage-report \
+		challenge_pismoio/tests/

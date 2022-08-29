@@ -1,6 +1,6 @@
 from __future__ import annotations
 from typing import Callable
-from common.logger import settings_logger
+from challenge_pismoio.common.logger import settings_logger
 from confluent_kafka import Message, SerializingProducer, DeserializingConsumer, Producer, Consumer
 from confluent_kafka.schema_registry import SchemaRegistryClient
 from confluent_kafka.schema_registry.avro import AvroSerializer, AvroDeserializer
@@ -101,7 +101,7 @@ class KafkaService:
         producer.flush()
         return True
 
-    def consume(self, topics: list, processor: Callable = None):
+    def consume(self, topics: list, processor: Callable = None, trigger_once: bool = False):
         """Consume messages in Kafka topics.
         Args:
             topics (list): list of topics
@@ -117,6 +117,8 @@ class KafkaService:
                 raw_message = consumer.poll(self.wait_time)
                 if self._check_valid_message(raw_message):
                     _ = self._process_message_value(raw_message, processor)
+                    if trigger_once:
+                        return True
                 else:
                     continue
             except Exception as err:
