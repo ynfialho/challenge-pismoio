@@ -2,15 +2,10 @@
 """
 from services.kafka import KafkaService
 from common.logger import settings_logger
+from common.constants import KAFKA_CONFIG, SCHEMA_REGISTRY_URL
 
 logger = settings_logger('debugger')
+good_topics = ['client_a-good-events', 'client_b-good-events', 'client_c-good-events']
 
-conf = {'bootstrap.servers': 'localhost:9094',
-        'group.id': "debugger",
-        'auto.offset.reset': 'earliest',
-        'enable.auto.commit': True}
-
-
-kafka = KafkaService(configs=conf, schema_registry_url='http://0.0.0.0:8081')
-
-kafka.consume(['client_a-good-events', 'client_b-good-events', 'client_c-good-events'], logger.info)
+kafka = KafkaService(configs=KAFKA_CONFIG, schema_registry_url=SCHEMA_REGISTRY_URL)
+kafka.consume(good_topics, logger.info)
