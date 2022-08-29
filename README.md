@@ -44,3 +44,16 @@ make event-process-start
 ```shell
 make debugger-start
 ```
+
+### Como testar
+1- Subir broker Kafka
+
+```shell
+make kafka-up 
+```
+
+2- Rodar tests
+
+```shell
+make tests
+```
