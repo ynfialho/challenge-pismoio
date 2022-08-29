@@ -27,33 +27,38 @@ Criar um processador de eventos disponibilizando dados com baixa latência.
 - Docker (ou [colima](https://github.com/abiosoft/colima))
 
 ## Como usar
-Executar os comandos abaixo na raiz do projeto.
+Após o preenchimento do arquivo `configurations.yaml`, na raiz do projeto, executar os comandos abaixo na raiz do projeto.
 
+Provisionamento do broker Kafka.
 ```shell
 make kafka-up 
 ```
 
+Iniciando execução do produtor de dados (mock).
 ```shell
 make mock-start
 ```
 
+Iniciando execução do processador de eventos, que consome, valida e produz dados para N clientes.
 ```shell
 make event-process-start
 ```
 
+Inicio do debugger para visualizar mensagens produzidas pelo event_processor.
 ```shell
 make debugger-start
 ```
 
-### Como testar
-1- Subir broker Kafka
+![](challenge-run.gif)
 
+## Como testar
+Subir broker Kafka.
 ```shell
 make kafka-up 
 ```
 
-2- Rodar tests
-
+Rodar tests.
 ```shell
 make tests
 ```
+![](cover-tests.png)

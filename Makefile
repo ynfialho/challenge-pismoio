@@ -1,7 +1,7 @@
 
 
 kafka-up:
-	@docker-compose up >> /dev/null
+	@docker-compose up
 
 kafka-down:
 	@docker-compose stop
